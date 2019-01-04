@@ -1,4 +1,4 @@
-import { Directive, Input, ViewContainerRef, OnInit, ComponentRef, ComponentFactoryResolver } from '@angular/core';
+import { Directive, Input, ViewContainerRef, OnInit, ComponentRef, ComponentFactoryResolver, OnChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { FieldConfig } from './../models/field-config.interface';
@@ -18,7 +18,7 @@ const components = {
   // attribute directive (structural directive)
   selector: '[dynamicField]'
 })
-export class DynamicFieldDirective implements OnInit {
+export class DynamicFieldDirective implements OnInit, OnChanges {
   @Input()
   config: FieldConfig;
 
@@ -43,5 +43,12 @@ export class DynamicFieldDirective implements OnInit {
     // pass the needed properties to the component (using .instance property)
     this.component.instance.config = this.config;
     this.component.instance.group = this.group;
+  }
+
+  ngOnChanges() {
+    if (this.component) {
+      this.component.instance.config = this.config;
+      this.component.instance.group = this.group;
+    }
   }
 }
