@@ -2,6 +2,8 @@ import { Component, ViewChild, AfterViewInit, OnDestroy, ChangeDetectorRef } fro
 import { Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
+import { charValidator } from './dynamic-form/validators/char.validator';
+
 import { DynamicFormComponent } from './dynamic-form/components/dynamic-form/dynamic-form.component';
 
 @Component({
@@ -21,7 +23,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       name: 'name',
       label: 'Full name',
       placeholder: 'Enter your name',
-      validation: [Validators.required, Validators.minLength(2)]
+      validation: [Validators.required, Validators.minLength(2), charValidator]
     },
     {
       type: 'select',
@@ -60,14 +62,14 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
     // run disable routine on first render
     this.form.setDisabled('submit', true);
-    //this.form.setValue('name', 'Quaese');
+    this.form.setValue('name', 'Quaese');
 
     // change
     this.cdRef.detectChanges();
   }
 
   hSubmit(formValues) {
-    console.log(formValues);
+    console.log('hSubmit (app.component): ', formValues, ' - ', this.form.valid);
   }
 
   ngOnDestroy() {
