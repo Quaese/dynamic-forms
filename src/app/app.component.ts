@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -13,6 +13,7 @@ import { DynamicFormComponent } from './dynamic-form/components/dynamic-form/dyn
 })
 export class AppComponent implements AfterViewInit, OnDestroy {
   // enables the possibility to get access to the instance of DyamicFormComponent like this.form.valid
+  // not safe to use before AfterViewInit hook
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
 
   private changeSubscription: Subscription;
@@ -40,10 +41,6 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }
   ];
 
-  constructor(
-    private cdRef: ChangeDetectorRef
-  ) {}
-
   ngAfterViewInit() {
     console.log('AfterViewInit (app.component): ', this.form.valid);
 
@@ -60,12 +57,17 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       }
     });
 
-    // run disable routine on first render
-    this.form.setDisabled('submit', true);
-    this.form.setValue('name', 'Quaese');
-
-    // change
-    this.cdRef.detectChanges();
+    // avoid 'ExpressionChangedAfterItHasBeenCheckedError' error
+    // (more see: https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4)
+    //
+    // alternative solution: use ChangeDetectorRef.detectChanges() => but this will force rerendering of all child components
+    // constructor(private changeDetectorRef: ChangeDetectorRef) {}
+    // ngAfterViewInit() {this.changeDetectorRef.detectChanges();}
+    Promise.resolve(null).then(() => {
+      // run disable routine on first render
+      this.form.setDisabled('submit', true);
+      this.form.setValue('name', 'Quaese');
+    });
   }
 
   hSubmit(formValues) {
