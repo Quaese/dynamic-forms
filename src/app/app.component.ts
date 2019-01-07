@@ -24,6 +24,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       name: 'name',
       label: 'Full name',
       placeholder: 'Enter your name',
+      value: 'Hoasd',
       validation: [Validators.required, Validators.minLength(2), charValidator]
     },
     {
@@ -32,7 +33,14 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       label: 'Favorite nick name',
       options: ['Hoasd', 'Hans Wuasd', 'Werner Winzig'],
       placeholder: 'Select an option',
+      value: '2',
       validation: [Validators.required]
+    },
+    {
+      type: 'textarea',
+      name: 'comment',
+      label: 'Your comment',
+      placeholder: 'Enter your comment here.'
     },
     {
       type: 'button',

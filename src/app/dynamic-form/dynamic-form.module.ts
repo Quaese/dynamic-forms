@@ -7,6 +7,7 @@ import { FormButtonComponent } from './components/form-button/form-button.compon
 import { FormInputComponent } from './components/form-input/form-input.component';
 import { FormSelectComponent } from './components/form-select/form-select.component';
 import { DynamicFieldDirective } from './directives/dynamic-field.directive';
+import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { DynamicFieldDirective } from './directives/dynamic-field.directive';
     FormInputComponent,
     FormSelectComponent,
     FormButtonComponent,
+    FormTextareaComponent,
   ],
   exports: [
     DynamicFormComponent
@@ -25,10 +27,11 @@ import { DynamicFieldDirective } from './directives/dynamic-field.directive';
   ],
   // when a component should be created dynamically, Angular needs to know, so that it
   // can expose the component factories
-  // => use 'entryComponents' to manifest compontents (bekannt machen)
+  // => use 'entryComponents' to declare/manifest compontents (bekannt machen)
   entryComponents: [
     FormInputComponent,
     FormSelectComponent,
+    FormTextareaComponent,
     FormButtonComponent,
   ]
 })
