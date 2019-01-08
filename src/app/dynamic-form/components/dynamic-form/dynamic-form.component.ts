@@ -1,55 +1,108 @@
 /*
  * Call with a component, e.g.:
  *
- *    import { Component, ViewChild, AfterViewInit } from '@angular/core';
+ *   import { Component, ViewChild, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+ *   import { Validators } from '@angular/forms';
+ *   import { Subscription } from 'rxjs';
  *
- *    import { DynamicFormComponent } from './dynamic-form/components/dynamic-form/dynamic-form.component';
+ *   import { charValidator } from './dynamic-form/validators/char.validator';
  *
- *    @Component({
- *      selector: 'app-root',
- *      template: `
- *        <div class="app">
- *          <dynamic-form [config]="config" (submit)="hSubmit($event)></dynamic-form>
- *        </div>
- *        {{ form.valid }}
- *        {{ form.value | json }}
- *      `,
- *      styleUrls: ['./app.component.less']
- *    })
- *    export class AppComponent implements AfterViewInit {
- *      @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
+ *   import { DynamicFormComponent } from './dynamic-form/components/dynamic-form/dynamic-form.component';
  *
- *      title = 'dynamic-forms';
+ *   @Component({
+ *     selector: 'app-root',
+ *     templateUrl: './app.component.html',
+ *     styleUrls: ['./app.component.less']
+ *   })
+ *   export class AppComponent implements AfterViewInit, OnDestroy {
+ *     // enables the possibility to get access to the instance of DyamicFormComponent like this.form.valid
+ *     // not safe to use before AfterViewInit hook
+ *     @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
  *
- *      config = [
- *        {
- *          type: 'input',
- *          name: 'name',
- *          label: 'Full name',
- *          placeholder: 'Enter your name'
- *        },
- *        {
- *          type: 'select',
- *          name: 'nick',
- *          label: 'Favorite nick name',
- *          options: ['Hoasd', 'Hans Wuasd', 'Werner Winzig'],
- *          placeholder: 'Enter an option'
- *        },
- *        {
- *          type: 'button',
- *          name: 'submit',
- *          label: 'Submit'
- *        }
- *      ];
+ *     private changeSubscription: Subscription;
  *
- *      ngAfterViewInit() {
- *        console.log('AfterViewInit (app.component): ', this.form.valid);
- *      }
+ *     // default css classes for form control/field groups
+ *     classes = {
+ *       wrapper: 'form-group row',
+ *       label: 'col-sm-2 col-form-label',
+ *       inner: 'col-sm-10',
+ *       control: 'form-control'
+ *     };
+ *     // configuration array form control/field groups
+ *     config = [
+ *       {
+ *         type: 'input',
+ *         name: 'name',
+ *         label: 'Full name',
+ *         placeholder: 'Enter your name',
+ *         // disabled: '',
+ *         value: 'Hoasd',
+ *         validation: [
+ *           Validators.required,
+ *           Validators.minLength(2), charValidator
+ *         ],
+ *         classes: {...this.classes}
+ *       },
+ *       {
+ *         type: 'select',
+ *         name: 'nick',
+ *         label: 'Favorite nick name',
+ *         options: ['Hoasd', 'Hans Wuasd', 'Werner Winzig'],
+ *         placeholder: 'Select an option',
+ *         value: '2',
+ *         validation: [Validators.required],
+ *         classes: {
+ *           ...this.classes,
+ *           control: 'form-control form-control-lg'
+ *         }
+ *       },
+ *       {
+ *         type: 'textarea',
+ *         name: 'comment',
+ *         label: 'Your comment',
+ *         placeholder: 'Enter your comment here.',
+ *         readonly: '',
+ *         value: 'Initial value',
+ *         classes: {...this.classes}
+ *       },
+ *       {
+ *         type: 'button',
+ *         name: 'submit',
+ *         label: 'Submit'
+ *       }
+ *     ];
  *
- *      hSubmit(formValues) {
- *        console.log(formValues);
- *      }
- *    }
+ *     constructor(
+ *       private changeDetectorRef: ChangeDetectorRef
+ *     ) {}
+ *
+ *     ngAfterViewInit() {
+ *       let previousValid = this.form.valid;
+ *
+ *       // subscribe to changes$ method from DynamicFormComponent
+ *       this.changeSubscription = this.form.changes$.subscribe(() => {
+ *         // if the valid value of the form changed
+ *         if (previousValid !== this.form.valid) {
+ *           // call setDisabled method from DynamicFormComponent to enable/disable the submit button
+ *           this.form.setDisabled('submit', previousValid);
+ *           // set new status of form
+ *           previousValid = this.form.valid;
+ *         }
+ *       });
+ *
+ *       // avoid 'ExpressionChangedAfterItHasBeenCheckedError' error
+ *       // (more see: https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4)
+ *       this.changeDetectorRef.detectChanges();
+ *     }
+ *
+ *     hSubmit(formValues) {
+ *       console.log('hSubmit (app.component): ', formValues, ' - ', this.form.valid);
+ *     }
+ *
+ *     ngOnDestroy() {
+ *       this.changeSubscription.unsubscribe();
+ *     }
+ *   }
  *
  */
 
@@ -75,7 +128,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   form: FormGroup;
 
   // Getter
-  get controls() { return this.config.filter(({type}) => type !== 'button');}
+  get controls() { return this.config.filter(({type}) => !/button|buttonbar/.test(type));}
   get valid() { return this.form.valid }
   get value() { return this.form.value }
   get changes$() { return this.form.valueChanges }  // returns an Observable

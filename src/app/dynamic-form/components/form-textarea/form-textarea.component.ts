@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { FieldConfig } from './../../models/field-config.interface';
 
 @Component({
-  selector: 'sform-textarea',
+  selector: 'form-textarea',
   templateUrl: './form-textarea.component.html',
   styleUrls: ['./form-textarea.component.less']
 })

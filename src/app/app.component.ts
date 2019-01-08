@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -18,14 +18,27 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
   private changeSubscription: Subscription;
 
+  // default css classes for form control/field groups
+  classes = {
+    wrapper: 'form-group row',
+    label: 'col-sm-2 col-form-label',
+    inner: 'col-sm-10',
+    control: 'form-control'
+  };
+  // configuration array form control/field groups
   config = [
     {
       type: 'input',
       name: 'name',
       label: 'Full name',
       placeholder: 'Enter your name',
+      // disabled: '',
       value: 'Hoasd',
-      validation: [Validators.required, Validators.minLength(2), charValidator]
+      validation: [
+        Validators.required,
+        Validators.minLength(2), charValidator
+      ],
+      classes: {...this.classes}
     },
     {
       type: 'select',
@@ -34,13 +47,20 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       options: ['Hoasd', 'Hans Wuasd', 'Werner Winzig'],
       placeholder: 'Select an option',
       value: '2',
-      validation: [Validators.required]
+      validation: [Validators.required],
+      classes: {
+        ...this.classes,
+        control: 'form-control form-control-lg'
+      }
     },
     {
       type: 'textarea',
       name: 'comment',
       label: 'Your comment',
-      placeholder: 'Enter your comment here.'
+      placeholder: 'Enter your comment here.',
+      readonly: '',
+      value: 'Initial value',
+      classes: {...this.classes}
     },
     {
       type: 'button',
@@ -48,6 +68,10 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       label: 'Submit'
     }
   ];
+
+  constructor(
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   ngAfterViewInit() {
     console.log('AfterViewInit (app.component): ', this.form.valid);
@@ -67,15 +91,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
     // avoid 'ExpressionChangedAfterItHasBeenCheckedError' error
     // (more see: https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4)
-    //
-    // alternative solution: use ChangeDetectorRef.detectChanges() => but this will force rerendering of all child components
-    // constructor(private changeDetectorRef: ChangeDetectorRef) {}
-    // ngAfterViewInit() {this.changeDetectorRef.detectChanges();}
-    Promise.resolve(null).then(() => {
-      // run disable routine on first render
-      this.form.setDisabled('submit', true);
-      this.form.setValue('name', 'Quaese');
-    });
+    this.changeDetectorRef.detectChanges();
   }
 
   hSubmit(formValues) {
