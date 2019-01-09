@@ -3,6 +3,7 @@ import { Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { charValidator } from './dynamic-form/validators/char.validator';
+import { selectValidator } from './dynamic-form/validators/select.validator';
 
 import { DynamicFormComponent } from './dynamic-form/components/dynamic-form/dynamic-form.component';
 
@@ -45,9 +46,13 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       name: 'nick',
       label: 'Favorite nick name',
       options: ['Hoasd', 'Hans Wuasd', 'Werner Winzig'],
+      defaulSelected: '0',
       placeholder: 'Select an option',
-      value: '2',
-      validation: [Validators.required],
+      // value: '2',
+      validation: [
+        Validators.required,
+        selectValidator('0')  // use value from defaultSelected
+      ],
       classes: {
         ...this.classes,
         control: 'form-control form-control-lg'
@@ -109,6 +114,10 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         previousValid = this.form.valid;
       }
     });
+
+    this.form.setDisabled('submit', true);
+    this.form.setDisabled('buttonbar_01', true);
+    // this.form.setValue('name', 'Quaese');
 
     // avoid 'ExpressionChangedAfterItHasBeenCheckedError' error
     // (more see: https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4)
