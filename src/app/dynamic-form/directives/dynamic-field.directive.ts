@@ -5,6 +5,7 @@ import { Field } from './../models/field.interface';
 import { FieldConfig } from './../models/field-config.interface';
 
 import { FormButtonComponent } from './../components/form-button/form-button.component';
+import { FormButtonbarComponent } from './../components/form-buttonbar/form-buttonbar.component';
 import { FormInputComponent } from './../components/form-input/form-input.component';
 import { FormSelectComponent } from './../components/form-select/form-select.component';
 import { FormTextareaComponent } from './../components/form-textarea/form-textarea.component';
@@ -12,6 +13,7 @@ import { FormTextareaComponent } from './../components/form-textarea/form-textar
 // map components to form field types
 const components = {
   button: FormButtonComponent,
+  buttonbar: FormButtonbarComponent,
   input: FormInputComponent,
   select: FormSelectComponent,
   textarea: FormTextareaComponent

@@ -4,13 +4,13 @@ import { FormGroup } from '@angular/forms';
 import { FieldConfig } from './../../models/field-config.interface';
 
 @Component({
-  selector: 'form-button',
-  templateUrl: './form-button.component.html',
-  styleUrls: ['./form-button.component.less']
+  selector: 'form-buttonbar',
+  templateUrl: './form-buttonbar.component.html',
+  styleUrls: ['./form-buttonbar.component.less']
 })
-export class FormButtonComponent {
+export class FormButtonbarComponent {
   config: FieldConfig;
   group: FormGroup;
 
-  constructor() { }
+  constructor() {}
 }

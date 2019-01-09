@@ -66,6 +66,28 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       type: 'button',
       name: 'submit',
       label: 'Submit'
+    },
+    {
+      type: 'buttonbar',
+      name: 'buttonbar_01',
+      label: 'Buttonbar',
+      buttons: [
+        {
+          type: 'button',
+          name: 'buttonbar_reset',
+          label: 'Reset',
+          action: 'reset',
+          classes: 'btn'
+        },
+        {
+          type: 'button',
+          name: 'buttonbar_submit',
+          label: 'Submit',
+          action: 'submit',
+          classes: 'btn btn-primary',
+          canDisable: true
+        }
+      ]
     }
   ];
 
@@ -74,16 +96,15 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   ) {}
 
   ngAfterViewInit() {
-    console.log('AfterViewInit (app.component): ', this.form.valid);
-
     let previousValid = this.form.valid;
 
     // subscribe to changes$ method from DynamicFormComponent
     this.changeSubscription = this.form.changes$.subscribe(() => {
       // if the valid value of the form changed
       if (previousValid !== this.form.valid) {
-        // call setDisabled method from DynamicFormComponent to enable/disable the submit button
+        // call setDisabled method from DynamicFormComponent to enable/disable the submit/buttonbar button
         this.form.setDisabled('submit', previousValid);
+        this.form.setDisabled('buttonbar_01', previousValid);
         // set new status of form
         previousValid = this.form.valid;
       }

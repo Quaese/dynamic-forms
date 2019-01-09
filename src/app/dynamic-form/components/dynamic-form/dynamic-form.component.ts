@@ -1,108 +1,131 @@
 /*
  * Call with a component, e.g.:
  *
- *   import { Component, ViewChild, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
- *   import { Validators } from '@angular/forms';
- *   import { Subscription } from 'rxjs';
+ *  import { Component, ViewChild, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+ *  import { Validators } from '@angular/forms';
+ *  import { Subscription } from 'rxjs';
  *
- *   import { charValidator } from './dynamic-form/validators/char.validator';
+ *  import { charValidator } from './dynamic-form/validators/char.validator';
  *
- *   import { DynamicFormComponent } from './dynamic-form/components/dynamic-form/dynamic-form.component';
+ *  import { DynamicFormComponent } from './dynamic-form/components/dynamic-form/dynamic-form.component';
  *
- *   @Component({
- *     selector: 'app-root',
- *     templateUrl: './app.component.html',
- *     styleUrls: ['./app.component.less']
- *   })
- *   export class AppComponent implements AfterViewInit, OnDestroy {
- *     // enables the possibility to get access to the instance of DyamicFormComponent like this.form.valid
- *     // not safe to use before AfterViewInit hook
- *     @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
+ *  @Component({
+ *    selector: 'app-root',
+ *    templateUrl: './app.component.html',
+ *    styleUrls: ['./app.component.less']
+ *  })
+ *  export class AppComponent implements AfterViewInit, OnDestroy {
+ *    // enables the possibility to get access to the instance of DyamicFormComponent like this.form.valid
+ *    // not safe to use before AfterViewInit hook
+ *    @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
  *
- *     private changeSubscription: Subscription;
+ *    private changeSubscription: Subscription;
  *
- *     // default css classes for form control/field groups
- *     classes = {
- *       wrapper: 'form-group row',
- *       label: 'col-sm-2 col-form-label',
- *       inner: 'col-sm-10',
- *       control: 'form-control'
- *     };
- *     // configuration array form control/field groups
- *     config = [
- *       {
- *         type: 'input',
- *         name: 'name',
- *         label: 'Full name',
- *         placeholder: 'Enter your name',
- *         // disabled: '',
- *         value: 'Hoasd',
- *         validation: [
- *           Validators.required,
- *           Validators.minLength(2), charValidator
- *         ],
- *         classes: {...this.classes}
- *       },
- *       {
- *         type: 'select',
- *         name: 'nick',
- *         label: 'Favorite nick name',
- *         options: ['Hoasd', 'Hans Wuasd', 'Werner Winzig'],
- *         placeholder: 'Select an option',
- *         value: '2',
- *         validation: [Validators.required],
- *         classes: {
- *           ...this.classes,
- *           control: 'form-control form-control-lg'
- *         }
- *       },
- *       {
- *         type: 'textarea',
- *         name: 'comment',
- *         label: 'Your comment',
- *         placeholder: 'Enter your comment here.',
- *         readonly: '',
- *         value: 'Initial value',
- *         classes: {...this.classes}
- *       },
- *       {
- *         type: 'button',
- *         name: 'submit',
- *         label: 'Submit'
- *       }
- *     ];
+ *    // default css classes for form control/field groups
+ *    classes = {
+ *      wrapper: 'form-group row',
+ *      label: 'col-sm-2 col-form-label',
+ *      inner: 'col-sm-10',
+ *      control: 'form-control'
+ *    };
+ *    // configuration array form control/field groups
+ *    config = [
+ *      {
+ *        type: 'input',
+ *        name: 'name',
+ *        label: 'Full name',
+ *        placeholder: 'Enter your name',
+ *        // disabled: '',
+ *        value: 'Hoasd',
+ *        validation: [
+ *          Validators.required,
+ *          Validators.minLength(2), charValidator
+ *        ],
+ *        classes: {...this.classes}
+ *      },
+ *      {
+ *        type: 'select',
+ *        name: 'nick',
+ *        label: 'Favorite nick name',
+ *        options: ['Hoasd', 'Hans Wuasd', 'Werner Winzig'],
+ *        placeholder: 'Select an option',
+ *        value: '2',
+ *        validation: [Validators.required],
+ *        classes: {
+ *          ...this.classes,
+ *          control: 'form-control form-control-lg'
+ *        }
+ *      },
+ *      {
+ *        type: 'textarea',
+ *        name: 'comment',
+ *        label: 'Your comment',
+ *        placeholder: 'Enter your comment here.',
+ *        readonly: '',
+ *        value: 'Initial value',
+ *        classes: {...this.classes}
+ *      },
+ *      {
+ *        type: 'button',
+ *        name: 'submit',
+ *        label: 'Submit'
+ *      },
+ *      {
+ *        type: 'buttonbar',
+ *        name: 'buttonbar_01',
+ *        label: 'Buttonbar',
+ *        buttons: [
+ *          {
+ *            type: 'button',
+ *            name: 'buttonbar_reset',
+ *            label: 'Reset',
+ *            action: 'reset',
+ *            classes: 'btn'
+ *          },
+ *          {
+ *            type: 'button',
+ *            name: 'buttonbar_submit',
+ *            label: 'Submit',
+ *            action: 'submit',
+ *            classes: 'btn btn-primary',
+ *            canDisable: true
+ *          }
+ *        ]
+ *      }
+ *    ];
  *
- *     constructor(
- *       private changeDetectorRef: ChangeDetectorRef
- *     ) {}
+ *    constructor(
+ *      private changeDetectorRef: ChangeDetectorRef
+ *    ) {}
  *
- *     ngAfterViewInit() {
- *       let previousValid = this.form.valid;
+ *    ngAfterViewInit() {
+ *      let previousValid = this.form.valid;
  *
- *       // subscribe to changes$ method from DynamicFormComponent
- *       this.changeSubscription = this.form.changes$.subscribe(() => {
- *         // if the valid value of the form changed
- *         if (previousValid !== this.form.valid) {
- *           // call setDisabled method from DynamicFormComponent to enable/disable the submit button
- *           this.form.setDisabled('submit', previousValid);
- *           // set new status of form
- *           previousValid = this.form.valid;
- *         }
- *       });
+ *      // subscribe to changes$ method from DynamicFormComponent
+ *      this.changeSubscription = this.form.changes$.subscribe(() => {
+ *        // if the valid value of the form changed
+ *        if (previousValid !== this.form.valid) {
+ *          // call setDisabled method from DynamicFormComponent to enable/disable the submit/buttonbar button
+ *          this.form.setDisabled('submit', previousValid);
+ *          this.form.setDisabled('buttonbar_01', previousValid);
+ *          // set new status of form
+ *          previousValid = this.form.valid;
+ *        }
+ *      });
  *
- *       // avoid 'ExpressionChangedAfterItHasBeenCheckedError' error
- *       // (more see: https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4)
- *       this.changeDetectorRef.detectChanges();
- *     }
+ *      // avoid 'ExpressionChangedAfterItHasBeenCheckedError' error
+ *      // (more see: https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4)
+ *      this.changeDetectorRef.detectChanges();
+ *    }
  *
- *     hSubmit(formValues) {
- *       console.log('hSubmit (app.component): ', formValues, ' - ', this.form.valid);
- *     }
+ *    hSubmit(formValues) {
+ *      console.log('hSubmit (app.component): ', formValues, ' - ', this.form.valid);
+ *    }
  *
- *     ngOnDestroy() {
- *       this.changeSubscription.unsubscribe();
- *     }
- *   }
+ *    ngOnDestroy() {
+ *      this.changeSubscription.unsubscribe();
+ *    }
+ *  }
  *
  */
 
@@ -179,14 +202,19 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   }
 
   setDisabled(name: string, disable: boolean) {
+    // if a form control exists corresponding to the argument *name*
     if (this.form.controls[name]) {
       const method = disable ? 'disable' : 'enable';
+      // execute needed method (.disable() or .enable())
       this.form.controls[name][method]();
       return;
     }
 
+    // loop over config array
     this.config = this.config.map((item) => {
+      // if an element exists corresponding to the argument *name*
       if (item.name === name) {
+        // set disabled property for this element to the config array
         item.disabled = disable;
       }
       return item;
