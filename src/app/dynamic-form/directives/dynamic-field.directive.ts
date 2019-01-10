@@ -1,3 +1,4 @@
+import { FormControlgroupComponent } from './../components/form-controlgroup/form-controlgroup.component';
 import { Directive, Input, ViewContainerRef, OnInit, ComponentRef, ComponentFactoryResolver, OnChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
@@ -15,6 +16,7 @@ import { FormTextareaComponent } from './../components/form-textarea/form-textar
 const components = {
   button: FormButtonComponent,
   buttonbar: FormButtonbarComponent,
+  controlgroup: FormControlgroupComponent,
   input: FormInputComponent,
   inputgroup: FormInputgroupComponent,
   select: FormSelectComponent,

@@ -154,6 +154,47 @@ export class AppComponent implements AfterViewInit, OnDestroy {
           }
         }
       ]
+    },
+    {
+      type: 'controlgroup',
+      name: 'controlgroup_01',
+      label: 'Controlgroup',
+      classes: 'form-row',
+      controls: [
+        {
+          type: 'input',
+          name: 'controlgroup_control_01',
+          label: 'controlgroup_control_01',
+          placeholder: 'Enter controlgroup_control_01',
+          validation: [
+            Validators.required,
+          ],
+          classes: {
+            wrapper: 'form-group',
+            label: 'col-sm-2 col-form-label',
+            inner: 'col-sm-10',
+            control: 'form-control'
+          }
+        },
+        {
+          type: 'select',
+          name: 'controlgroup_control_02',
+          label: 'controlgroup_control_02',
+          placeholder: 'Enter controlgroup_control_02',
+          options: ['Hoasd', 'Hans Wuasd', 'Werner Winzig'],
+          defaulSelected: '0',
+          validation: [
+            Validators.required,
+            selectValidator('0')  // use value from defaultSelected
+          ],
+          classes: {
+            wrapper: 'form-group',
+            label: 'col-sm-2 col-form-label',
+            inner: 'col-sm-10',
+            control: 'form-control'
+          }
+        }
+      ]
     }
   ];
 
