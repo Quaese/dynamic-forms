@@ -144,6 +144,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { FieldConfig } from './../../models/field-config.interface';
 
+
 @Component({
   exportAs: 'dynamicForm',
   selector: 'dynamic-form',
@@ -159,19 +160,24 @@ export class DynamicFormComponent implements OnInit, OnChanges {
 
   form: FormGroup;
 
+  private controlConfig = {
+    notControlled: ['button', 'buttonbar'],
+    controlGroups: ['inputgroup']
+  };
+
   // Getter
   get controls() {
     let controlgroups = [],
       controls = this.config.filter((item) => {
         // get controlgroups
-        if (/controlgroup/.test(item.type)) {
+        if ((new RegExp(this.controlConfig.controlGroups.join('|'))).test(item.type)) {
           // add controls to controlgroup array
           controlgroups = controlgroups.concat(item.controls);
           // do not add them to controls array
           return false;
         }
 
-        return !/button|buttonbar/.test(item.type);
+        return !(new RegExp(this.controlConfig.notControlled.join('|'))).test(item.type);
       });
 
     if (controlgroups.length) {

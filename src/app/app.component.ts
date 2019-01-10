@@ -95,9 +95,9 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       ]
     },
     {
-      type: 'controlgroup',
-      name: 'controlgroup_01',
-      label: 'Controlgroup',
+      type: 'inputgroup',
+      name: 'inputgroup_01',
+      label: 'Inputgroup',
       classes: 'form-row',
       controls: [
         {
@@ -133,9 +133,9 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       ]
     },
     {
-      type: 'controlgroup',
-      name: 'controlgroup_02',
-      label: 'Controlgroup',
+      type: 'inputgroup',
+      name: 'inputgroup_02',
+      label: 'Inputgroup',
       classes: 'form-row',
       controls: [
         {

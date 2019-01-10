@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormControlgroupComponent } from './form-controlgroup.component';
+import { FormInputgroupComponent } from './form-inputgroup.component';
 
-describe('FormControlgroupComponent', () => {
-  let component: FormControlgroupComponent;
-  let fixture: ComponentFixture<FormControlgroupComponent>;
+describe('FormInputgroupComponent', () => {
+  let component: FormInputgroupComponent;
+  let fixture: ComponentFixture<FormInputgroupComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FormControlgroupComponent ]
+      declarations: [ FormInputgroupComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FormControlgroupComponent);
+    fixture = TestBed.createComponent(FormInputgroupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
