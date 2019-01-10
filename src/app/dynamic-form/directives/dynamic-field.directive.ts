@@ -9,7 +9,7 @@ import { FormButtonbarComponent } from './../components/form-buttonbar/form-butt
 import { FormControlgroupComponent } from './../components/form-controlgroup/form-controlgroup.component';
 import { FormInputComponent } from './../components/form-input/form-input.component';
 import { FormInputgroupComponent } from './../components/form-inputgroup/form-inputgroup.component';
-import { FormRadiobuttonComponent } from './../components/form-radiobutton/form-radiobutton.component';
+import { FormRadiogroupComponent } from './../components/form-radiogroup/form-radiogroup.component';
 import { FormSelectComponent } from './../components/form-select/form-select.component';
 import { FormTextareaComponent } from './../components/form-textarea/form-textarea.component';
 
@@ -20,7 +20,7 @@ const components = {
   controlgroup: FormControlgroupComponent,
   input: FormInputComponent,
   inputgroup: FormInputgroupComponent,
-  radiogroup: FormRadiobuttonComponent,
+  radiogroup: FormRadiogroupComponent,
   select: FormSelectComponent,
   textarea: FormTextareaComponent
 };
