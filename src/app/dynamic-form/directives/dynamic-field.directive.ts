@@ -1,3 +1,4 @@
+import { FormControlgroupComponent } from './../components/form-controlgroup/form-controlgroup.component';
 import { Directive, Input, ViewContainerRef, OnInit, ComponentRef, ComponentFactoryResolver, OnChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
@@ -7,6 +8,7 @@ import { FieldConfig } from './../models/field-config.interface';
 import { FormButtonComponent } from './../components/form-button/form-button.component';
 import { FormButtonbarComponent } from './../components/form-buttonbar/form-buttonbar.component';
 import { FormInputComponent } from './../components/form-input/form-input.component';
+import { FormInputgroupComponent } from './../components/form-inputgroup/form-inputgroup.component';
 import { FormSelectComponent } from './../components/form-select/form-select.component';
 import { FormTextareaComponent } from './../components/form-textarea/form-textarea.component';
 
@@ -14,7 +16,9 @@ import { FormTextareaComponent } from './../components/form-textarea/form-textar
 const components = {
   button: FormButtonComponent,
   buttonbar: FormButtonbarComponent,
+  controlgroup: FormControlgroupComponent,
   input: FormInputComponent,
+  inputgroup: FormInputgroupComponent,
   select: FormSelectComponent,
   textarea: FormTextareaComponent
 };

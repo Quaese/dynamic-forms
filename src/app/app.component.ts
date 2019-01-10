@@ -93,6 +93,108 @@ export class AppComponent implements AfterViewInit, OnDestroy {
           canDisable: true
         }
       ]
+    },
+    {
+      type: 'inputgroup',
+      name: 'inputgroup_01',
+      label: 'Inputgroup',
+      classes: 'form-row',
+      controls: [
+        {
+          type: 'input',
+          name: 'zipcode',
+          label: 'Zipcode',
+          placeholder: 'Enter zipcode',
+          validation: [
+            Validators.required,
+          ],
+          classes: {
+            wrapper: 'form-group',
+            label: 'col-sm-2 col-form-label',
+            inner: 'col-sm-10',
+            control: 'form-control'
+          }
+        },
+        {
+          type: 'input',
+          name: 'city',
+          label: 'City',
+          placeholder: 'Enter city',
+          validation: [
+            Validators.required,
+          ],
+          classes: {
+            wrapper: 'form-group',
+            label: 'col-sm-2 col-form-label',
+            inner: 'col-sm-10',
+            control: 'form-control'
+          }
+        }
+      ]
+    },
+    {
+      type: 'inputgroup',
+      name: 'inputgroup_02',
+      label: 'Inputgroup',
+      classes: 'form-row',
+      controls: [
+        {
+          type: 'input',
+          name: 'street',
+          label: 'Street',
+          placeholder: 'Enter street',
+          validation: [
+            Validators.required,
+          ],
+          classes: {
+            wrapper: 'form-group',
+            label: 'col-sm-2 col-form-label',
+            inner: 'col-sm-10',
+            control: 'form-control'
+          }
+        }
+      ]
+    },
+    {
+      type: 'controlgroup',
+      name: 'controlgroup_01',
+      label: 'Controlgroup',
+      classes: 'form-row',
+      controls: [
+        {
+          type: 'input',
+          name: 'controlgroup_control_01',
+          label: 'controlgroup_control_01',
+          placeholder: 'Enter controlgroup_control_01',
+          validation: [
+            Validators.required,
+          ],
+          classes: {
+            wrapper: 'form-group',
+            label: 'col-sm-2 col-form-label',
+            inner: 'col-sm-10',
+            control: 'form-control'
+          }
+        },
+        {
+          type: 'select',
+          name: 'controlgroup_control_02',
+          label: 'controlgroup_control_02',
+          placeholder: 'Enter controlgroup_control_02',
+          options: ['Hoasd', 'Hans Wuasd', 'Werner Winzig'],
+          defaulSelected: '0',
+          validation: [
+            Validators.required,
+            selectValidator('0')  // use value from defaultSelected
+          ],
+          classes: {
+            wrapper: 'form-group',
+            label: 'col-sm-2 col-form-label',
+            inner: 'col-sm-10',
+            control: 'form-control'
+          }
+        }
+      ]
     }
   ];
 
