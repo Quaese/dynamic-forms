@@ -160,7 +160,26 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   form: FormGroup;
 
   // Getter
-  get controls() { return this.config.filter(({type}) => !/button|buttonbar/.test(type));}
+  get controls() {
+    let controlgroups = [],
+      controls = this.config.filter((item) => {
+        // get controlgroups
+        if (/controlgroup/.test(item.type)) {
+          // add controls to controlgroup array
+          controlgroups = controlgroups.concat(item.controls);
+          // do not add them to controls array
+          return false;
+        }
+
+        return !/button|buttonbar/.test(item.type);
+      });
+
+    if (controlgroups.length) {
+      controls = controls.concat(controlgroups);
+    }
+
+    return controls;
+  }
   get valid() { return this.form.valid }
   get value() { return this.form.value }
   get changes$() { return this.form.valueChanges }  // returns an Observable

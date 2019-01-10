@@ -93,6 +93,67 @@ export class AppComponent implements AfterViewInit, OnDestroy {
           canDisable: true
         }
       ]
+    },
+    {
+      type: 'controlgroup',
+      name: 'controlgroup_01',
+      label: 'Controlgroup',
+      classes: 'form-row',
+      controls: [
+        {
+          type: 'input',
+          name: 'zipcode',
+          label: 'Zipcode',
+          placeholder: 'Enter zipcode',
+          validation: [
+            Validators.required,
+          ],
+          classes: {
+            wrapper: 'form-group',
+            label: 'col-sm-2 col-form-label',
+            inner: 'col-sm-10',
+            control: 'form-control'
+          }
+        },
+        {
+          type: 'input',
+          name: 'city',
+          label: 'City',
+          placeholder: 'Enter city',
+          validation: [
+            Validators.required,
+          ],
+          classes: {
+            wrapper: 'form-group',
+            label: 'col-sm-2 col-form-label',
+            inner: 'col-sm-10',
+            control: 'form-control'
+          }
+        }
+      ]
+    },
+    {
+      type: 'controlgroup',
+      name: 'controlgroup_02',
+      label: 'Controlgroup',
+      classes: 'form-row',
+      controls: [
+        {
+          type: 'input',
+          name: 'street',
+          label: 'Street',
+          placeholder: 'Enter street',
+          validation: [
+            Validators.required,
+          ],
+          classes: {
+            wrapper: 'form-group',
+            label: 'col-sm-2 col-form-label',
+            inner: 'col-sm-10',
+            control: 'form-control'
+          }
+        }
+      ]
     }
   ];
 

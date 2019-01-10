@@ -10,6 +10,7 @@ import { FormButtonbarComponent } from './components/form-buttonbar/form-buttonb
 import { FormInputComponent } from './components/form-input/form-input.component';
 import { FormSelectComponent } from './components/form-select/form-select.component';
 import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
+import { FormControlgroupComponent } from './components/form-controlgroup/form-controlgroup.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { FormTextareaComponent } from './components/form-textarea/form-textarea.
     DynamicFieldDirective,
     FormButtonComponent,
     FormButtonbarComponent,
+    FormControlgroupComponent,
     FormInputComponent,
     FormSelectComponent,
     FormTextareaComponent,
@@ -34,6 +36,7 @@ import { FormTextareaComponent } from './components/form-textarea/form-textarea.
   entryComponents: [
     FormButtonComponent,
     FormButtonbarComponent,
+    FormControlgroupComponent,
     FormInputComponent,
     FormSelectComponent,
     FormTextareaComponent,
