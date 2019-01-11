@@ -2,8 +2,12 @@ import { Component, ViewChild, AfterViewInit, OnDestroy, ChangeDetectorRef } fro
 import { Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
+import { FieldConfig } from './dynamic-form/models/field-config.interface';
+import { FieldClasses } from './dynamic-form/models/field-classes.interface';
+
 import { charValidator } from './dynamic-form/validators/char.validator';
 import { selectValidator } from './dynamic-form/validators/select.validator';
+import { radioRequiredValidator } from './dynamic-form/validators/radio-required.validator';
 
 import { DynamicFormComponent } from './dynamic-form/components/dynamic-form/dynamic-form.component';
 
@@ -20,14 +24,14 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   private changeSubscription: Subscription;
 
   // default css classes for form control/field groups
-  classes = {
+  classes:FieldClasses = {
     wrapper: 'form-group row',
     label: 'col-sm-2 col-form-label',
     inner: 'col-sm-10',
     control: 'form-control'
   };
   // configuration array form control/field groups
-  config = [
+  config:FieldConfig[] = [
     {
       type: 'input',
       name: 'name',
@@ -46,7 +50,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       name: 'nick',
       label: 'Favorite nick name',
       options: ['Hoasd', 'Hans Wuasd', 'Werner Winzig'],
-      defaulSelected: '0',
+      defaultSelected: '0',
       placeholder: 'Select an option',
       // value: '2',
       validation: [
@@ -98,7 +102,9 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       type: 'inputgroup',
       name: 'inputgroup_01',
       label: 'Inputgroup',
-      classes: 'form-row',
+      classes: {
+        wrapper: 'form-row'
+      },
       controls: [
         {
           type: 'input',
@@ -136,7 +142,9 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       type: 'inputgroup',
       name: 'inputgroup_02',
       label: 'Inputgroup',
-      classes: 'form-row',
+      classes: {
+        wrapper: 'form-row'
+      },
       controls: [
         {
           type: 'input',
@@ -159,7 +167,9 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       type: 'controlgroup',
       name: 'controlgroup_01',
       label: 'Controlgroup',
-      classes: 'form-row',
+      classes: {
+        wrapper: 'form-row'
+      },
       controls: [
         {
           type: 'input',
@@ -182,7 +192,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
           label: 'controlgroup_control_02',
           placeholder: 'Enter controlgroup_control_02',
           options: ['Hoasd', 'Hans Wuasd', 'Werner Winzig'],
-          defaulSelected: '0',
+          defaultSelected: '0',
           validation: [
             Validators.required,
             selectValidator('0')  // use value from defaultSelected
@@ -195,6 +205,23 @@ export class AppComponent implements AfterViewInit, OnDestroy {
           }
         }
       ]
+    },
+    {
+      type: 'radiogroup',
+      name: 'gender',
+      label: 'Gender',
+      radios: [{label: 'female', value: '0'}, {label: 'male', value: '1'}],
+      validation: [
+        radioRequiredValidator()
+      ],
+      classes: {
+        ...this.classes,
+        fieldset: 'form-group',
+        wrapper: 'row',
+        legend: 'col-form-label col-sm-2 pt-0',
+        control: 'form-check-input',
+        label: 'form-check-label'
+      }
     }
   ];
 

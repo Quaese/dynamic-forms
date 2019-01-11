@@ -1,4 +1,4 @@
-<div class="dynamic-field form-inputgroup" [ngClass]="config.classes" [formGroup]="group">
+<div class="dynamic-field form-inputgroup" [ngClass]="config.classes?.wrapper" [formGroup]="group">
   <ng-template ngFor let-control [ngForOf]="config.controls">
     <div class="form-input" [ngClass]="control.classes?.wrapper">
       <label [ngClass]="control.classes?.label">{{control.label}}</label>

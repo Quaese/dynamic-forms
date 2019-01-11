@@ -12,6 +12,7 @@ import { FormInputComponent } from './components/form-input/form-input.component
 import { FormInputgroupComponent } from './components/form-inputgroup/form-inputgroup.component';
 import { FormSelectComponent } from './components/form-select/form-select.component';
 import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
+import { FormRadiogroupComponent } from './components/form-radiogroup/form-radiogroup.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { FormTextareaComponent } from './components/form-textarea/form-textarea.
     FormControlgroupComponent,
     FormInputgroupComponent,
     FormInputComponent,
+    FormRadiogroupComponent,
     FormSelectComponent,
     FormTextareaComponent,
   ],
@@ -41,6 +43,7 @@ import { FormTextareaComponent } from './components/form-textarea/form-textarea.
     FormControlgroupComponent,
     FormInputgroupComponent,
     FormInputComponent,
+    FormRadiogroupComponent,
     FormSelectComponent,
     FormTextareaComponent,
   ]
