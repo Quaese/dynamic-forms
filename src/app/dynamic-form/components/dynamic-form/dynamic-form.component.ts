@@ -2,16 +2,18 @@
  * Call with a component, e.g.:
  *
  *
- *  import { FieldConfig } from './dynamic-form/models/field-config.interface';
- *  import { FieldClasses } from './dynamic-form/models/field-classes.interface';
  *  import { Component, ViewChild, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
  *  import { Validators } from '@angular/forms';
  *  import { Subscription } from 'rxjs';
+ *
+ *  import { FieldConfig } from './dynamic-form/models/field-config.interface';
+ *  import { FieldClasses } from './dynamic-form/models/field-classes.interface';
  *
  *  import { charValidator } from './dynamic-form/validators/char.validator';
  *  import { selectValidator } from './dynamic-form/validators/select.validator';
  *
  *  import { DynamicFormComponent } from './dynamic-form/components/dynamic-form/dynamic-form.component';
+ *  import { radioRequiredValidator } from './dynamic-form/validators/radio-required.validator';
  *
  *  @Component({
  *    selector: 'app-root',
@@ -213,6 +215,9 @@
  *        name: 'gender',
  *        label: 'Gender',
  *        radios: [{label: 'female', value: '0'}, {label: 'male', value: '1'}],
+ *        validation: [
+ *          radioRequiredValidator()
+ *        ],
  *        classes: {
  *          ...this.classes,
  *          fieldset: 'form-group',
