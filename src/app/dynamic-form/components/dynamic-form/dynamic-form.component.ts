@@ -293,7 +293,8 @@ export class DynamicFormComponent implements OnInit, OnChanges {
 
   private controlConfig = {
     notControlled: ['button', 'buttonbar'],
-    controlGroups: ['inputgroup', 'controlgroup']
+    controlGroups: ['inputgroup', 'controlgroup'],
+    formArrays: ['checkbox']
   };
 
   // Getter
@@ -356,7 +357,15 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   createGroup(): FormGroup {
     const group = this.fb.group({});
 
-    this.controls.forEach(control => group.addControl(control.name, this.createControl(control)));
+    this.controls.forEach(control => {
+      // console.log('control.type: ', control.type, (new RegExp(`^${this.controlConfig.formArrays.join('|')}$`)).test(control.type));
+      // if new controll contains/manages an FormArray
+      if ( (new RegExp(`^${this.controlConfig.formArrays.join('|')}$`)).test(control.type)) {
+        group.addControl(control.name, this.fb.array(control.controls.map(item => this.fb.control(item.selected || false))));
+      } else {
+        group.addControl(control.name, this.createControl(control));
+      }
+    });
 
     return group;
   }

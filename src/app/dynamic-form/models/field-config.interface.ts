@@ -16,6 +16,7 @@ export interface FieldConfig {
     placeholder?: string;
     radios?: any[];
     readonly?: string;
+    selected?: boolean;
     validation?: ValidatorFn[];
     value?: any;
 }

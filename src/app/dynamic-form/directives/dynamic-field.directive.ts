@@ -6,6 +6,7 @@ import { FieldConfig } from './../models/field-config.interface';
 
 import { FormButtonComponent } from './../components/form-button/form-button.component';
 import { FormButtonbarComponent } from './../components/form-buttonbar/form-buttonbar.component';
+import { FormCheckboxComponent } from './../components/form-checkbox/form-checkbox.component';
 import { FormControlgroupComponent } from './../components/form-controlgroup/form-controlgroup.component';
 import { FormInputComponent } from './../components/form-input/form-input.component';
 import { FormInputgroupComponent } from './../components/form-inputgroup/form-inputgroup.component';
@@ -17,6 +18,7 @@ import { FormTextareaComponent } from './../components/form-textarea/form-textar
 const components = {
   button: FormButtonComponent,
   buttonbar: FormButtonbarComponent,
+  checkbox: FormCheckboxComponent,
   controlgroup: FormControlgroupComponent,
   input: FormInputComponent,
   inputgroup: FormInputgroupComponent,

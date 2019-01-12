@@ -222,7 +222,38 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         control: 'form-check-input',
         label: 'form-check-label'
       }
-    }
+    },
+    {
+      type: 'checkbox',
+      name: 'prg_language',
+      label: 'programming language',
+      controls: [
+        { type: 'checkbox', name: 'prg_language', value: 'javascript', label: 'JavaScript', selected: false },
+        { type: 'checkbox', name: 'prg_language', value: 'typescript', label: 'TypeScript', selected: false },
+        { type: 'checkbox', name: 'prg_language', value: 'python', label: 'Python', selected: false }
+      ],
+      classes: {
+        ...this.classes,
+        fieldset: 'form-group',
+        wrapper: 'row',
+        legend: 'col-form-label col-sm-2 pt-0',
+        control: 'form-check-input',
+        label: 'form-check-label'
+      }
+    },
+    // {
+    //   type: 'singlecheckbox',
+    //   name: 'rich',
+    //   label: 'rich?',
+    //   selected: false,
+    //   // disabled: '',
+    //   // value: 'agb',
+    //   classes: {
+    //     inner: 'form-check',
+    //     control: 'form-check-input',
+    //     label: 'form-check-label'
+    //   }
+    // }
   ];
 
   constructor(

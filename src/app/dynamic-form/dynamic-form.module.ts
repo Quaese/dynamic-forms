@@ -13,6 +13,7 @@ import { FormInputgroupComponent } from './components/form-inputgroup/form-input
 import { FormSelectComponent } from './components/form-select/form-select.component';
 import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
 import { FormRadiogroupComponent } from './components/form-radiogroup/form-radiogroup.component';
+import { FormCheckboxComponent } from './components/form-checkbox/form-checkbox.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { FormRadiogroupComponent } from './components/form-radiogroup/form-radio
     DynamicFieldDirective,
     FormButtonComponent,
     FormButtonbarComponent,
+    FormCheckboxComponent,
     FormControlgroupComponent,
     FormInputgroupComponent,
     FormInputComponent,
@@ -40,6 +42,7 @@ import { FormRadiogroupComponent } from './components/form-radiogroup/form-radio
   entryComponents: [
     FormButtonComponent,
     FormButtonbarComponent,
+    FormCheckboxComponent,
     FormControlgroupComponent,
     FormInputgroupComponent,
     FormInputComponent,
