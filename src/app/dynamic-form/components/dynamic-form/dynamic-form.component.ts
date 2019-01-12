@@ -11,9 +11,9 @@
  *
  *  import { charValidator } from './dynamic-form/validators/char.validator';
  *  import { selectValidator } from './dynamic-form/validators/select.validator';
+ *  import { radioRequiredValidator } from './dynamic-form/validators/radio-required.validator';
  *
  *  import { DynamicFormComponent } from './dynamic-form/components/dynamic-form/dynamic-form.component';
- *  import { radioRequiredValidator } from './dynamic-form/validators/radio-required.validator';
  *
  *  @Component({
  *    selector: 'app-root',
@@ -226,6 +226,37 @@
  *          control: 'form-check-input',
  *          label: 'form-check-label'
  *        }
+ *      },
+ *      {
+ *        type: 'checkboxgroup',
+ *        name: 'prg_language',
+ *        label: 'programming language',
+ *        controls: [
+ *          { type: 'checkbox', name: 'prg_language', value: 'javascript', label: 'JavaScript', selected: false },
+ *          { type: 'checkbox', name: 'prg_language', value: 'typescript', label: 'TypeScript', selected: false },
+ *          { type: 'checkbox', name: 'prg_language', value: 'python', label: 'Python', selected: false }
+ *        ],
+ *        classes: {
+ *          ...this.classes,
+ *          fieldset: 'form-group',
+ *          wrapper: 'row',
+ *          legend: 'col-form-label col-sm-2 pt-0',
+ *          control: 'form-check-input',
+ *          label: 'form-check-label'
+ *        }
+ *      },
+ *      {
+ *        type: 'checkbox',
+ *        name: 'rich',
+ *        label: 'rich?',
+ *        selected: false,
+ *        // disabled: '',
+ *        // value: false,
+ *        classes: {
+ *          inner: 'form-check',
+ *          control: 'form-check-input',
+ *          label: 'form-check-label'
+ *        }
  *      }
  *    ];
  *
@@ -266,7 +297,6 @@
  *    }
  *  }
  *
- *
  */
 
 
@@ -293,7 +323,8 @@ export class DynamicFormComponent implements OnInit, OnChanges {
 
   private controlConfig = {
     notControlled: ['button', 'buttonbar'],
-    controlGroups: ['inputgroup', 'controlgroup']
+    controlGroups: ['inputgroup', 'controlgroup'],
+    formArrays: ['checkboxgroup']
   };
 
   // Getter
@@ -356,7 +387,15 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   createGroup(): FormGroup {
     const group = this.fb.group({});
 
-    this.controls.forEach(control => group.addControl(control.name, this.createControl(control)));
+    this.controls.forEach(control => {
+      // console.log('control.type: ', control.type, (new RegExp(`^${this.controlConfig.formArrays.join('|')}$`)).test(control.type));
+      // if new controll contains/manages an FormArray
+      if ( (new RegExp(`^${this.controlConfig.formArrays.join('|')}$`)).test(control.type)) {
+        group.addControl(control.name, this.fb.array(control.controls.map(item => this.fb.control(item.selected || false))));
+      } else {
+        group.addControl(control.name, this.createControl(control));
+      }
+    });
 
     return group;
   }
