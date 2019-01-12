@@ -304,6 +304,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angu
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { FieldConfig } from './../../models/field-config.interface';
+import md5 from '../../shared/md5';
 
 
 @Component({
@@ -358,6 +359,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit() {
+    console.log('dynamic-form.component (OnInit): md5("hello") = ', md5('hello'));
     this.form = this.createGroup();
   }
 
