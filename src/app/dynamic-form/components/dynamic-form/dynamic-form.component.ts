@@ -294,7 +294,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   private controlConfig = {
     notControlled: ['button', 'buttonbar'],
     controlGroups: ['inputgroup', 'controlgroup'],
-    formArrays: ['checkbox']
+    formArrays: ['checkboxgroup']
   };
 
   // Getter

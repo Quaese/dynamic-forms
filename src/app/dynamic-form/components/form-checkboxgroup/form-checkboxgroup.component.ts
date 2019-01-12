@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 
-import { FieldConfig } from './../../models/field-config.interface';
+import { FieldConfig } from '../../models/field-config.interface';
 
 @Component({
-  selector: 'app-form-checkbox',
-  templateUrl: './form-checkbox.component.html',
-  styleUrls: ['./form-checkbox.component.less']
+  selector: 'form-checkboxgroup',
+  templateUrl: './form-checkboxgroup.component.html',
+  styleUrls: ['./form-checkboxgroup.component.less']
 })
-export class FormCheckboxComponent {
+export class FormCheckboxGroupComponent {
   config: FieldConfig;
   group: FormGroup;
 

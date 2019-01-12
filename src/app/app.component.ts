@@ -224,7 +224,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       }
     },
     {
-      type: 'checkbox',
+      type: 'checkboxgroup',
       name: 'prg_language',
       label: 'programming language',
       controls: [

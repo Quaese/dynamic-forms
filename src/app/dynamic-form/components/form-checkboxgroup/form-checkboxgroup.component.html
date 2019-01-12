@@ -1,16 +1,3 @@
-<!-- <div class="dynamic-field form-checkboxgroup" [ngClass]="config.classes?.wrapper" [formGroup]="group">
-  <ng-template ngFor let-cb let-i="index" [ngForOf]="controls">
-    <input
-      type="checkbox"
-      [ngClass]="config.classes?.control"
-      [formControl]="cb"
-      [attr.disabled]="config.disabled"
-    />
-    <label [ngClass]="config.classes?.label">{{config.controls[i].label}}</label>
-  </ng-template>
-</div> -->
-
-
 <fieldset class="dynamic-field form-checkboxgroup" [ngClass]="config.classes?.fieldset" [formGroup]="group">
   <div [ngClass]="config.classes?.wrapper">
     <legend *ngIf="config.label" [ngClass]="config.classes?.legend">{{config.label}}</legend>
