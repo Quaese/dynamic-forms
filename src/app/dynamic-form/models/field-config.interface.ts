@@ -11,6 +11,7 @@ export interface FieldConfig {
     controls?: FieldConfig[];
     defaultSelected?: string;
     disabled?: boolean;
+    id?: string | number;
     label?: string;
     options?: string[];
     placeholder?: string;

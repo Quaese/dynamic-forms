@@ -241,19 +241,19 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         label: 'form-check-label'
       }
     },
-    // {
-    //   type: 'singlecheckbox',
-    //   name: 'rich',
-    //   label: 'rich?',
-    //   selected: false,
-    //   // disabled: '',
-    //   // value: 'agb',
-    //   classes: {
-    //     inner: 'form-check',
-    //     control: 'form-check-input',
-    //     label: 'form-check-label'
-    //   }
-    // }
+    {
+      type: 'checkbox',
+      name: 'rich',
+      label: 'rich?',
+      selected: false,
+      // disabled: '',
+      // value: false,
+      classes: {
+        inner: 'form-check',
+        control: 'form-check-input',
+        label: 'form-check-label'
+      }
+    }
   ];
 
   constructor(

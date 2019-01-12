@@ -11,9 +11,9 @@
  *
  *  import { charValidator } from './dynamic-form/validators/char.validator';
  *  import { selectValidator } from './dynamic-form/validators/select.validator';
+ *  import { radioRequiredValidator } from './dynamic-form/validators/radio-required.validator';
  *
  *  import { DynamicFormComponent } from './dynamic-form/components/dynamic-form/dynamic-form.component';
- *  import { radioRequiredValidator } from './dynamic-form/validators/radio-required.validator';
  *
  *  @Component({
  *    selector: 'app-root',
@@ -226,6 +226,37 @@
  *          control: 'form-check-input',
  *          label: 'form-check-label'
  *        }
+ *      },
+ *      {
+ *        type: 'checkboxgroup',
+ *        name: 'prg_language',
+ *        label: 'programming language',
+ *        controls: [
+ *          { type: 'checkbox', name: 'prg_language', value: 'javascript', label: 'JavaScript', selected: false },
+ *          { type: 'checkbox', name: 'prg_language', value: 'typescript', label: 'TypeScript', selected: false },
+ *          { type: 'checkbox', name: 'prg_language', value: 'python', label: 'Python', selected: false }
+ *        ],
+ *        classes: {
+ *          ...this.classes,
+ *          fieldset: 'form-group',
+ *          wrapper: 'row',
+ *          legend: 'col-form-label col-sm-2 pt-0',
+ *          control: 'form-check-input',
+ *          label: 'form-check-label'
+ *        }
+ *      },
+ *      {
+ *        type: 'checkbox',
+ *        name: 'rich',
+ *        label: 'rich?',
+ *        selected: false,
+ *        // disabled: '',
+ *        // value: false,
+ *        classes: {
+ *          inner: 'form-check',
+ *          control: 'form-check-input',
+ *          label: 'form-check-label'
+ *        }
  *      }
  *    ];
  *
@@ -265,7 +296,6 @@
  *      this.changeSubscription.unsubscribe();
  *    }
  *  }
- *
  *
  */
 
