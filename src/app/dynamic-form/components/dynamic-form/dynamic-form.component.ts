@@ -1,3 +1,4 @@
+import { FormArray } from '@angular/forms';
 /*
  * Call with a component, e.g.:
  *
@@ -322,6 +323,8 @@ export class DynamicFormComponent implements OnInit, OnChanges {
 
   form: FormGroup;
 
+  private formArrayControls = {};
+
   private controlConfig = {
     notControlled: ['button', 'buttonbar'],
     controlGroups: ['inputgroup', 'controlgroup'],
@@ -390,10 +393,12 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     const group = this.fb.group({});
 
     this.controls.forEach(control => {
-      // console.log('control.type: ', control.type, (new RegExp(`^${this.controlConfig.formArrays.join('|')}$`)).test(control.type));
       // if new controll contains/manages an FormArray
       if ( (new RegExp(`^${this.controlConfig.formArrays.join('|')}$`)).test(control.type)) {
+        // add FormArray to control
         group.addControl(control.name, this.fb.array(control.controls.map(item => this.fb.control(item.selected || false))));
+        // push control name to array (only once)
+        this.formArrayControls[control.name] = control;
       } else {
         group.addControl(control.name, this.createControl(control));
       }
@@ -432,11 +437,32 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     this.form.controls[name].setValue(value, {emitEvent: true});
   }
 
+  mapFormArrays() {
+    const instance = this;
+    let formArrayValues = {};
+
+    // loop over all controls containing a FormArray
+    Object.keys(instance.formArrayControls).forEach(controlName => {
+      // add corresponding control from config controls-array
+      formArrayValues[controlName] = instance.value[controlName].map((selected: boolean, i: number) => {
+        return {
+          ...instance.formArrayControls[controlName].controls[i],
+          selected
+        }
+      });
+    });
+
+    return formArrayValues;
+  }
+
   hSubmit(event: Event) {
     event.preventDefault();
     event.stopPropagation();
 
+    // create new return object
+    const formValue = Object.assign({}, this.value, this.mapFormArrays());
+
     // trigger/emit event for parent component (hand over value via getter)
-    this.submit.emit(this.value);
+    this.submit.emit(formValue);
   }
 }
