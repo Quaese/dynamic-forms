@@ -414,12 +414,8 @@ export class DynamicFormComponent implements OnInit, OnChanges {
           );
         });
 
-        console.log('formGroup: ', control.name, group, group.get(control.name));
-      //   //control.controls.map(item => this.fb.control(item.selected || false))));
-      //   // push control name to array (only once)
-
-      //   // ToDo: Brauche ich das noch????
-      //   //this.formArrayControls[control.name] = control;
+        // ToDo: Brauche ich das noch????
+        //this.formArrayControls[control.name] = control;
       } else {
         group.addControl(control.name, this.createControl(control));
       }
