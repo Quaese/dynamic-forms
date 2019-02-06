@@ -328,7 +328,8 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   private controlConfig = {
     notControlled: ['button', 'buttonbar'],
     controlGroups: ['inputgroup', 'controlgroup'],
-    formArrays: ['checkboxgroup']
+    formArrays: ['checkboxgroup'],
+    formGroups: ['passwordconfirm']
   };
 
   // Getter
@@ -393,12 +394,32 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     const group = this.fb.group({});
 
     this.controls.forEach(control => {
-      // if new controll contains/manages an FormArray
+      // if new control contains/manages an FormArray
       if ( (new RegExp(`^${this.controlConfig.formArrays.join('|')}$`)).test(control.type)) {
         // add FormArray to control
         group.addControl(control.name, this.fb.array(control.controls.map(item => this.fb.control(item.selected || false))));
         // push control name to array (only once)
         this.formArrayControls[control.name] = control;
+      }
+      // if new control contains/manages a formGroup (e.g. Password Confirmation)
+      else if ( (new RegExp(`^${this.controlConfig.formGroups.join('|')}$`)).test(control.type)) {
+        // add form group to control
+        group.addControl(control.name, this.fb.group({}, {validator: control.validation}));
+
+        // loop over controls that should be controlled by the form group
+        control.controls.forEach((subControl) => {
+          (group.get(control.name) as FormGroup).addControl(
+            subControl.name,
+            this.createControl(subControl)
+          );
+        });
+
+        console.log('formGroup: ', control.name, group, group.get(control.name));
+      //   //control.controls.map(item => this.fb.control(item.selected || false))));
+      //   // push control name to array (only once)
+
+      //   // ToDo: Brauche ich das noch????
+      //   //this.formArrayControls[control.name] = control;
       } else {
         group.addControl(control.name, this.createControl(control));
       }
