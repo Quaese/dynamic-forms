@@ -10,6 +10,7 @@ import { selectValidator } from './dynamic-form/validators/select.validator';
 import { radioRequiredValidator } from './dynamic-form/validators/radio-required.validator';
 
 import { DynamicFormComponent } from './dynamic-form/components/dynamic-form/dynamic-form.component';
+import { passwordConfirmValidator } from './dynamic-form/validators/passwordconfirm.validator';
 
 @Component({
   selector: 'app-root',
@@ -250,6 +251,26 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       // value: false,
       classes: {
         inner: 'form-check',
+        control: 'form-check-input',
+        label: 'form-check-label'
+      }
+    },
+    {
+      type: 'passwordconfirm',
+      name: 'passwordconfirmgroup',
+      label: 'password confirmation',
+      validation: [
+        passwordConfirmValidator()
+      ],
+      controls: [
+        { type: 'password', name: 'password', value: '', label: 'Password', placeholder: 'Enter password', validation: [Validators.required] },
+        { type: 'password', name: 'passwordconfirm', value: '', label: 'Confirm password', placeholder: 'Confirm password', validation: [Validators.required] }
+      ],
+      classes: {
+        ...this.classes,
+        fieldset: 'form-group',
+        wrapper: 'row',
+        legend: 'col-form-label col-sm-2 pt-0',
         control: 'form-check-input',
         label: 'form-check-label'
       }

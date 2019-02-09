@@ -1,5 +1,5 @@
 <div class="dynamic-field form-input" [ngClass]="config.classes?.wrapper" [formGroup]="group">
-  <label [ngClass]="config.classes?.label">{{config.label}}</label>
+  <label *ngIf="config.label" [ngClass]="config.classes?.label">{{config.label}}</label>
   <div [ngClass]="config.classes?.inner">
     <input
       type="text"
