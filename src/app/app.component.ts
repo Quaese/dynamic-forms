@@ -263,8 +263,8 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         passwordConfirmValidator()
       ],
       controls: [
-        { type: 'password', name: 'password', value: '', label: 'Password', validation: [Validators.required] },
-        { type: 'password', name: 'passwordconfirm', value: '', label: 'Confirm password', validation: [Validators.required] }
+        { type: 'password', name: 'password', value: '', label: 'Password', placeholder: 'Enter password', validation: [Validators.required] },
+        { type: 'password', name: 'passwordconfirm', value: '', label: 'Confirm password', placeholder: 'Confirm password', validation: [Validators.required] }
       ],
       classes: {
         ...this.classes,
