@@ -434,9 +434,6 @@ export class DynamicFormComponent implements OnInit, OnChanges {
             this.createControl(subControl)
           );
         });
-
-        // ToDo: Brauche ich das noch????
-        //this.formArrayControls[control.name] = control;
       } else {
         group.addControl(control.name, this.createControl(control));
       }

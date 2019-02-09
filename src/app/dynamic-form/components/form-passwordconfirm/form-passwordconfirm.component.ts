@@ -16,10 +16,10 @@ export class FormPasswordconfirmComponent implements OnInit {
   }
 
   get groupControls() {
-    return (this.group.controls[this.config.name] as FormGroup).controls;
+    return (<FormGroup>this.group.controls[this.config.name]).controls;
   }
   get passwordGroup() {
-    return this.group.get(this.config.name) as FormGroup;
+    return <FormGroup>this.group.get(this.config.name);
   }
 
   ngOnInit() {
