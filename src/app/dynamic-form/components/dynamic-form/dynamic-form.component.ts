@@ -180,7 +180,7 @@ import { FormArray } from '@angular/forms';
  *          {
  *            type: 'input',
  *            name: 'controlgroup_control_01',
- *            label: 'controlgroup_control_01',
+ *            label: 'controlgroup_control_01 - text field',
  *            placeholder: 'Enter controlgroup_control_01',
  *            validation: [
  *              Validators.required,
@@ -193,10 +193,25 @@ import { FormArray } from '@angular/forms';
  *            }
  *          },
  *          {
- *            type: 'select',
+ *            type: 'input',
  *            name: 'controlgroup_control_02',
- *            label: 'controlgroup_control_02',
- *            placeholder: 'Enter controlgroup_control_02',
+ *            label: 'controlgroup_control_02 - date field',
+ *            placeholder: 'Enter Date',
+ *            inputtype: 'date',
+ *            validation: [
+ *            ],
+ *            classes: {
+ *              wrapper: 'form-group',
+ *              label: 'col-sm-2 col-form-label',
+ *              inner: 'col-sm-10',
+ *              control: 'form-control'
+ *            }
+ *          },
+ *          {
+ *            type: 'select',
+ *            name: 'controlgroup_control_03',
+ *            label: 'controlgroup_control_03 - Select',
+ *            placeholder: 'Enter controlgroup_control_03',
  *            options: ['Hoasd', 'Hans Wuasd', 'Werner Winzig'],
  *            defaultSelected: '0',
  *            validation: [
@@ -209,6 +224,13 @@ import { FormArray } from '@angular/forms';
  *              inner: 'col-sm-10',
  *              control: 'form-control'
  *            }
+ *          },
+ *          {
+ *            type: 'input',
+ *            name: 'controlgroup_control_04',
+ *            label: 'controlgroup_control_04 - hidden field',
+ *            inputtype: 'hidden',
+ *            value: 'hidden value'
  *          }
  *        ]
  *      },
