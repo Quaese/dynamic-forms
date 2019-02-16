@@ -318,8 +318,8 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       }
     });
 
-    this.form.setDisabled('submit', true);
-    this.form.setDisabled('buttonbar_01', true);
+    this.form.setDisabled('submit', !this.form.valid);
+    this.form.setDisabled('buttonbar_01', !this.form.valid);
     // this.form.setValue('name', 'Quaese');
 
     // avoid 'ExpressionChangedAfterItHasBeenCheckedError' error
