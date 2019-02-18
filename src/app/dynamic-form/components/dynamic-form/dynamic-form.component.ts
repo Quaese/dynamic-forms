@@ -407,7 +407,9 @@ export class DynamicFormComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     console.log('dynamic-form.component (OnInit): md5("hello") = ', md5('hello'));
-    this.form = this.createGroup();
+    if (this.controls.length) {
+        this.form = this.createGroup();
+    }
   }
 
   ngOnChanges() {
@@ -491,7 +493,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   }
 
   setValue(name: string, value: any) {
-    this.form.controls[name].setValue(value, {emitEvent: true});
+    this.form.controls[name] && this.form.controls[name].setValue(value, {emitEvent: true});
   }
 
   mapFormArrays() {
