@@ -370,32 +370,13 @@ export class DynamicFormComponent implements OnInit, OnChanges {
 
   private controlConfig = {
     notControlled: ['button', 'buttonbar'],
-    controlGroups: ['inputgroup', 'controlgroup'],
     formArrays: ['checkboxgroup'],
-    formGroups: ['passwordconfirm']
+    formGroups: ['inputgroup', 'passwordconfirm', 'controlgroup']
   };
 
   // Getter
   get controls() {
-    let controlgroups = [],
-      controls = this.config.filter((item) => {
-        // get controlgroups
-        if ((new RegExp(`^${this.controlConfig.controlGroups.join('|')}$`)).test(item.type)) {
-          // add controls to controlgroup array
-          controlgroups = controlgroups.concat(item.controls);
-          // do not add them to controls array
-          return false;
-        }
-
-        return !(new RegExp(`^${this.controlConfig.notControlled.join('|')}$`)).test(item.type);
-      });
-
-    // if controlgroups array is not empty => add content to controls array
-    if (controlgroups.length) {
-      controls = controls.concat(controlgroups);
-    }
-
-    return controls;
+    return this.config.filter((item) => !(new RegExp(`^${this.controlConfig.notControlled.join('|')}$`)).test(item.type));
   }
   get valid() { return this.form.valid }
   get value() { return this.form.value }
@@ -407,30 +388,33 @@ export class DynamicFormComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     console.log('dynamic-form.component (OnInit): md5("hello") = ', md5('hello'));
-    if (this.controls.length) {
-        this.form = this.createGroup();
-    }
+    this.form = this.createGroup();
   }
 
   ngOnChanges() {
     if (this.form) {
-      // get all controls from the config array (except buttons)
-      const controls = Object.keys(this.form.controls);
+      // get all controls from the form group object
+      const formControls = Object.keys(this.form.controls);
       // get array containing control names only
       const configControls = this.controls.map((item) => item.name);
 
-      console.log('controls (dynamic-form.component): ', controls);
-      console.log('configControls (dynamic-form.component): ', configControls);
+      console.log('controls (dynamic-form.component): ', formControls);
+      console.log('configControls (dynamic-form.component): ', JSON.stringify(configControls));
 
-      controls
+      // this.controls.forEach(control => {
+      //   console.log(control.name, ': ', this.form.get(control.name) instanceof FormGroup, this.form.get(control.name) instanceof FormArray);
+      // })
+
+      formControls
         .filter((control) => !configControls.includes(control))     // get all controls which are not included in the config
         .forEach((control) => this.form.removeControl(control));    // remove all not included controls from form
 
       configControls
-        .filter((control) => !controls.includes(control))
+        .filter((control) => !formControls.includes(control))
         .forEach((name) => {
-          const config = this.config.find((control) => control.name === name);
-          this.form.addControl(name, this.createControl(config));
+          const singleControl = this.config.find((control) => control.name === name);
+          // prepare control from config and add to form group
+          singleControl && this.prepareControl(singleControl, this.form);
         });
     }
   }
@@ -439,31 +423,35 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     const group = this.fb.group({});
 
     this.controls.forEach(control => {
-      // if new control contains/manages an FormArray
-      if ( (new RegExp(`^${this.controlConfig.formArrays.join('|')}$`)).test(control.type)) {
-        // add FormArray to control
-        group.addControl(control.name, this.fb.array(control.controls.map(item => this.fb.control(item.selected || false))));
-        // push control name to array (only once)
-        this.formArrayControls[control.name] = control;
-      }
-      // if new control contains/manages a formGroup (e.g. Password Confirmation)
-      else if ( (new RegExp(`^${this.controlConfig.formGroups.join('|')}$`)).test(control.type)) {
-        // add form group to control
-        group.addControl(control.name, this.fb.group({}, {validator: control.validation}));
-
-        // loop over controls that should be controlled by the form group
-        control.controls.forEach((subControl) => {
-          (group.get(control.name) as FormGroup).addControl(
-            subControl.name,
-            this.createControl(subControl)
-          );
-        });
-      } else {
-        group.addControl(control.name, this.createControl(control));
-      }
+      this.prepareControl(control, group);
     });
 
     return group;
+  }
+
+  prepareControl(control: FieldConfig, group: FormGroup) {
+    // if new control contains/manages an FormArray
+    if ( (new RegExp(`^${this.controlConfig.formArrays.join('|')}$`)).test(control.type)) {
+      // add FormArray to control
+      group.addControl(control.name, this.fb.array(control.controls.map(item => this.fb.control(item.selected || false))));
+      // push control name to array (only once)
+      this.formArrayControls[control.name] = control;
+    }
+    // if new control contains/manages a formGroup (e.g. Password Confirmation)
+    else if ( (new RegExp(`^${this.controlConfig.formGroups.join('|')}$`)).test(control.type)) {
+      // add form group to control
+      group.addControl(control.name, this.fb.group({}, {validator: control.validation}));
+
+      // loop over controls that should be controlled by the form group
+      control.controls.forEach((subControl) => {
+        (group.get(control.name) as FormGroup).addControl(
+          subControl.name,
+          this.createControl(subControl)
+        );
+      });
+    } else {
+      group.addControl(control.name, this.createControl(control));
+    }
   }
 
   createControl(config: FieldConfig) {
