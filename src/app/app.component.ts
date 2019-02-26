@@ -40,7 +40,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       label: 'Full name',
       placeholder: 'Enter your name',
       // disabled: '',
-      value: 'Hoasd',
+      //value: 'Hoasd',
       validation: [
         Validators.required,
         Validators.minLength(2), charValidator
@@ -70,7 +70,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       label: 'Your comment',
       placeholder: 'Enter your comment here.',
       readonly: '',
-      value: 'Initial value',
+      // value: 'Initial value',
       classes: {...this.classes}
     },
     {
@@ -389,6 +389,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
               name: 'zipcode',
               label: 'Zipcode',
               placeholder: 'Enter zipcode',
+              value: '12345',
               validation: [
                 Validators.required,
               ],
@@ -404,6 +405,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
               name: 'city',
               label: 'City',
               placeholder: 'Enter city',
+              value: 'Irgendwo',
               validation: [
                 Validators.required,
               ],
@@ -454,6 +456,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
               name: 'controlgroup_control_01',
               label: 'controlgroup_control_01 - text field',
               placeholder: 'Enter controlgroup_control_01',
+              value: '... toll...',
               validation: [
                 Validators.required,
               ],
@@ -510,7 +513,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
           type: 'radiogroup',
           name: 'gender',
           label: 'Gender',
-          radios: [{label: 'female', value: '0'}, {label: 'male', value: '1'}],
+          radios: [{label: 'female', value: '0', selected: true}, {label: 'male', value: '1'}],
           validation: [
             radioRequiredValidator()
           ],
@@ -528,7 +531,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
           name: 'prg_language',
           label: 'programming language',
           controls: [
-            { type: 'checkbox', name: 'prg_language', value: 'javascript', label: 'JavaScript', selected: false },
+            { type: 'checkbox', name: 'prg_language', value: 'javascript', label: 'JavaScript', selected: true },
             { type: 'checkbox', name: 'prg_language', value: 'typescript', label: 'TypeScript', selected: false },
             { type: 'checkbox', name: 'prg_language', value: 'python', label: 'Python', selected: false }
           ],
@@ -545,7 +548,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
           type: 'checkbox',
           name: 'rich',
           label: 'rich?',
-          selected: false,
+          selected: true,
           // disabled: '',
           // value: false,
           classes: {
@@ -609,6 +612,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       setTimeout(() => {
         this.setDisabled(!this.form.valid);
         this.form.form.updateValueAndValidity();
+        this.form.setValue('nick', '1')
       }, 0);
     });
   }
