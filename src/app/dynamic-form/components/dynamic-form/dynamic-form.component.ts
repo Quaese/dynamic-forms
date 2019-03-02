@@ -338,9 +338,9 @@ import { FormArray } from '@angular/forms';
  *        delay(1000)
  *      )
  *      .subscribe(() => {
- *        let config: FieldConfig[];
+ *        let newValuesConfig: FieldConfig[];
  *
- *        config = [
+ *        newValuesConfig = [
  *          {
  *            type: 'input',
  *            name: 'name',
@@ -615,7 +615,7 @@ import { FormArray } from '@angular/forms';
  *        ];
  *
  *        // set values from config to form controls
- *        this.form.setValues(config);
+ *        this.form.setValues(newValuesConfig);
  *      });
  *    }
  *
@@ -799,9 +799,9 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     }
   }
 
-  setValues(config: FieldConfig[]) {
-    // loop over controls in config
-    config.forEach(control => {
+  setValues(newValuesConfig: FieldConfig[]) {
+    // loop over controls in newValuesConfig
+    newValuesConfig.forEach(control => {
       // default: control has a value
       if (control.value !== undefined) {
         this.setValue(control.name, control.value);
