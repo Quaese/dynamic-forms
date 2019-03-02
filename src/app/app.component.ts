@@ -1,6 +1,7 @@
 import { Component, ViewChild, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 import { FieldConfig } from './dynamic-form/models/field-config.interface';
 import { FieldClasses } from './dynamic-form/models/field-classes.interface';
@@ -39,7 +40,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       label: 'Full name',
       placeholder: 'Enter your name',
       // disabled: '',
-      value: 'Hoasd',
+      //value: 'Hoasd',
       validation: [
         Validators.required,
         Validators.minLength(2), charValidator
@@ -69,35 +70,8 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       label: 'Your comment',
       placeholder: 'Enter your comment here.',
       readonly: '',
-      value: 'Initial value',
+      // value: 'Initial value',
       classes: {...this.classes}
-    },
-    {
-      type: 'button',
-      name: 'submit',
-      label: 'Submit'
-    },
-    {
-      type: 'buttonbar',
-      name: 'buttonbar_01',
-      label: 'Buttonbar',
-      buttons: [
-        {
-          type: 'button',
-          name: 'buttonbar_reset',
-          label: 'Reset',
-          action: 'reset',
-          classes: 'btn'
-        },
-        {
-          type: 'button',
-          name: 'buttonbar_submit',
-          label: 'Submit',
-          action: 'submit',
-          classes: 'btn btn-primary',
-          canDisable: true
-        }
-      ]
     },
     {
       type: 'inputgroup',
@@ -233,7 +207,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       type: 'radiogroup',
       name: 'gender',
       label: 'Gender',
-      radios: [{label: 'female', value: '0'}, {label: 'male', value: '1'}],
+      radios: [{type: 'radio', label: 'female', value: '0'}, {type: 'radio', label: 'male', value: '1'}],
       validation: [
         radioRequiredValidator()
       ],
@@ -296,6 +270,33 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         control: 'form-check-input',
         label: 'form-check-label'
       }
+    },
+    {
+      type: 'button',
+      name: 'submit',
+      label: 'Submit'
+    },
+    {
+      type: 'buttonbar',
+      name: 'buttonbar_01',
+      label: 'Buttonbar',
+      buttons: [
+        {
+          type: 'button',
+          name: 'buttonbar_reset',
+          label: 'Reset',
+          action: 'reset',
+          classes: 'btn'
+        },
+        {
+          type: 'button',
+          name: 'buttonbar_submit',
+          label: 'Submit',
+          action: 'submit',
+          classes: 'btn btn-primary',
+          canDisable: true
+        }
+      ]
     }
   ];
 
@@ -306,25 +307,317 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     let previousValid = this.form.valid;
 
+    // method to simulate update of values (e.g. after getting data from http request)
+    this.updateFormValuesWithObservable();
+
     // subscribe to changes$ method from DynamicFormComponent
     this.changeSubscription = this.form.changes$.subscribe(() => {
       // if the valid value of the form changed
       if (previousValid !== this.form.valid) {
         // call setDisabled method from DynamicFormComponent to enable/disable the submit/buttonbar button
-        this.form.setDisabled('submit', previousValid);
-        this.form.setDisabled('buttonbar_01', previousValid);
+        this.setDisabled(previousValid);
         // set new status of form
         previousValid = this.form.valid;
       }
     });
 
-    this.form.setDisabled('submit', !this.form.valid);
-    this.form.setDisabled('buttonbar_01', !this.form.valid);
+    this.setDisabled(!this.form.valid);
     // this.form.setValue('name', 'Quaese');
 
     // avoid 'ExpressionChangedAfterItHasBeenCheckedError' error
     // (more see: https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4)
     this.changeDetectorRef.detectChanges();
+  }
+
+  updateFormValuesWithObservable() {
+    const subscribe = of(null).pipe(
+      delay(1000)
+    )
+    .subscribe(() => {
+      let newValuesConfig: FieldConfig[];
+
+      newValuesConfig = [
+        {
+          type: 'input',
+          name: 'name',
+          label: 'Full name',
+          placeholder: 'Enter your name',
+          // disabled: '',
+          value: 'Hoasd',
+          validation: [
+            Validators.required,
+            Validators.minLength(2), charValidator
+          ],
+          classes: {...this.classes}
+        },
+        {
+          type: 'select',
+          name: 'nick',
+          label: 'Favorite nick name',
+          options: ['Hoasd', 'Hans Wuasd', 'Werner Winzig'],
+          defaultSelected: '0',
+          placeholder: 'Select an option',
+          value: '1',
+          validation: [
+            Validators.required,
+            selectValidator('0')  // use value from defaultSelected
+          ],
+          classes: {
+            ...this.classes,
+            control: 'form-control form-control-lg'
+          }
+        },
+        {
+          type: 'textarea',
+          name: 'comment',
+          label: 'Your comment',
+          placeholder: 'Enter your comment here.',
+          readonly: '',
+          value: 'Updated value',
+          classes: {...this.classes}
+        },
+        {
+          type: 'inputgroup',
+          name: 'inputgroup_01',
+          label: 'Inputgroup',
+          classes: {
+            wrapper: 'form-row'
+          },
+          controls: [
+            {
+              type: 'input',
+              name: 'zipcode',
+              label: 'Zipcode',
+              placeholder: 'Enter zipcode',
+              value: '12345',
+              validation: [
+                Validators.required,
+              ],
+              classes: {
+                wrapper: 'form-group',
+                label: 'col-sm-2 col-form-label',
+                inner: 'col-sm-10',
+                control: 'form-control'
+              }
+            },
+            {
+              type: 'input',
+              name: 'city',
+              label: 'City',
+              placeholder: 'Enter city',
+              value: 'Irgendwo',
+              validation: [
+                Validators.required,
+              ],
+              classes: {
+                wrapper: 'form-group',
+                label: 'col-sm-2 col-form-label',
+                inner: 'col-sm-10',
+                control: 'form-control'
+              }
+            }
+          ]
+        },
+        {
+          type: 'inputgroup',
+          name: 'inputgroup_02',
+          label: 'Inputgroup',
+          classes: {
+            wrapper: 'form-row'
+          },
+          controls: [
+            {
+              type: 'input',
+              name: 'street',
+              label: 'Street',
+              placeholder: 'Enter street',
+              value: 'Am Hang',
+              validation: [
+                Validators.required,
+              ],
+              classes: {
+                wrapper: 'form-group',
+                label: 'col-sm-2 col-form-label',
+                inner: 'col-sm-10',
+                control: 'form-control'
+              }
+            }
+          ]
+        },
+        {
+          type: 'controlgroup',
+          name: 'controlgroup_01',
+          label: 'Controlgroup',
+          classes: {
+            wrapper: 'form-row'
+          },
+          controls: [
+            {
+              type: 'input',
+              name: 'controlgroup_control_01',
+              label: 'controlgroup_control_01 - text field',
+              placeholder: 'Enter controlgroup_control_01',
+              value: '... toll...',
+              validation: [
+                Validators.required,
+              ],
+              classes: {
+                wrapper: 'form-group',
+                label: 'col-sm-2 col-form-label',
+                inner: 'col-sm-10',
+                control: 'form-control'
+              }
+            },
+            {
+              type: 'input',
+              name: 'controlgroup_control_02',
+              label: 'controlgroup_control_02 - date field',
+              placeholder: 'Enter Date',
+              inputtype: 'date',
+              validation: [
+              ],
+              classes: {
+                wrapper: 'form-group',
+                label: 'col-sm-2 col-form-label',
+                inner: 'col-sm-10',
+                control: 'form-control'
+              }
+            },
+            {
+              type: 'select',
+              name: 'controlgroup_control_03',
+              label: 'controlgroup_control_03 - Select',
+              placeholder: 'Enter controlgroup_control_03',
+              value: '1',
+              options: ['Hoasd', 'Hans Wuasd', 'Werner Winzig'],
+              defaultSelected: '0',
+              validation: [
+                Validators.required,
+                selectValidator('0')  // use value from defaultSelected
+              ],
+              classes: {
+                wrapper: 'form-group',
+                label: 'col-sm-2 col-form-label',
+                inner: 'col-sm-10',
+                control: 'form-control'
+              }
+            },
+            {
+              type: 'input',
+              name: 'controlgroup_control_04',
+              label: 'controlgroup_control_04 - hidden field',
+              inputtype: 'hidden',
+              value: 'hidden value'
+            }
+          ]
+        },
+        {
+          type: 'radiogroup',
+          name: 'gender',
+          label: 'Gender',
+          radios: [{type: 'radio', label: 'female', value: '0', selected: true}, {type: 'radio', label: 'male', value: '1'}],
+          validation: [
+            radioRequiredValidator()
+          ],
+          classes: {
+            ...this.classes,
+            fieldset: 'form-group',
+            wrapper: 'row',
+            legend: 'col-form-label col-sm-2 pt-0',
+            control: 'form-check-input',
+            label: 'form-check-label'
+          }
+        },
+        {
+          type: 'checkboxgroup',
+          name: 'prg_language',
+          label: 'programming language',
+          controls: [
+            { type: 'checkbox', name: 'prg_language', value: 'javascript', label: 'JavaScript', selected: true },
+            { type: 'checkbox', name: 'prg_language', value: 'typescript', label: 'TypeScript', selected: false },
+            { type: 'checkbox', name: 'prg_language', value: 'python', label: 'Python', selected: true }
+          ],
+          classes: {
+            ...this.classes,
+            fieldset: 'form-group',
+            wrapper: 'row',
+            legend: 'col-form-label col-sm-2 pt-0',
+            control: 'form-check-input',
+            label: 'form-check-label'
+          }
+        },
+        {
+          type: 'checkbox',
+          name: 'rich',
+          label: 'rich?',
+          selected: true,
+          // disabled: '',
+          // value: false,
+          classes: {
+            inner: 'form-check',
+            control: 'form-check-input',
+            label: 'form-check-label'
+          }
+        },
+        {
+          type: 'passwordconfirm',
+          name: 'passwordconfirmgroup',
+          label: 'password confirmation',
+          validation: [
+            passwordConfirmValidator()
+          ],
+          controls: [
+            { type: 'password', name: 'password', value: 'asdf', label: 'Password', placeholder: 'Enter password', validation: [Validators.required] },
+            { type: 'password', name: 'passwordconfirm', value: 'asdf', label: 'Confirm password', placeholder: 'Confirm password', validation: [Validators.required] }
+          ],
+          classes: {
+            ...this.classes,
+            fieldset: 'form-group',
+            wrapper: 'row',
+            legend: 'col-form-label col-sm-2 pt-0',
+            control: 'form-check-input',
+            label: 'form-check-label'
+          }
+        },
+        {
+          type: 'button',
+          name: 'submit',
+          // disabled: !this.form.valid,
+          label: 'Submit'
+        },
+        {
+          type: 'buttonbar',
+          name: 'buttonbar_01',
+          label: 'Buttonbar',
+          buttons: [
+            {
+              type: 'button',
+              name: 'buttonbar_reset',
+              label: 'Reset',
+              action: 'reset',
+              classes: 'btn'
+            },
+            {
+              type: 'button',
+              name: 'buttonbar_submit',
+              label: 'Submit',
+              action: 'submit',
+              classes: 'btn btn-primary',
+              // disabled: !this.form.valid,
+              canDisable: true
+            }
+          ]
+        }
+      ];
+
+      // set values from config to form controls
+      this.form.setValues(newValuesConfig);
+    });
+  }
+
+  setDisabled(disabled) {
+    this.form.setDisabled('submit', disabled);
+    this.form.setDisabled('buttonbar_01', disabled);
   }
 
   hSubmit(formValues) {
